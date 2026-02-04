@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
 
 /* ============================================
    Type Definitions
@@ -124,28 +125,42 @@ export default function Navbar() {
       </div>
 
       {/* ============================================
-          Mobile Navigation Menu
+          Mobile Navigation Menu with Animation
           ============================================ */}
-      {isOpen && (
-        <div className="md:hidden border-t border-border bg-background">
-          <div className="px-4 py-4 space-y-3">
-            {links.map((link: NavLink) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={(): void => setIsOpen(false)}
-                className={`block py-4 text-center text-xl transition-all ${
-                  isActive(link.href)
-                    ? "bg-surface text-primary font-semibold"
-                    : "text-text hover:bg-surface hover:text-primary"
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
-          </div>
-        </div>
-      )}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="md:hidden border-t border-border bg-background overflow-hidden"
+          >
+            <div className="px-4 py-4 space-y-3">
+              {links.map((link: NavLink, index: number) => (
+                <motion.div
+                  key={link.href}
+                  initial={{ x: -20, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: index * 0.1, duration: 0.3 }}
+                >
+                  <Link
+                    href={link.href}
+                    onClick={(): void => setIsOpen(false)}
+                    className={`block py-4 text-center text-xl transition-all ${
+                      isActive(link.href)
+                        ? "bg-surface text-primary font-semibold"
+                        : "text-text hover:bg-surface hover:text-primary"
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 }

@@ -81,22 +81,20 @@ export default function Footer() {
           <div className="space-y-4">
             <h4 className="text-lg font-semibold">Contatti</h4>
             <div className="space-y-3">
-              <div className="flex items-start gap-3">
-                <MapPin className="h-5 w-5 mt-0.5 flex-shrink-0 text-background/80" />
-                <p className="text-sm text-background/80">
-                  Via Esempio 123
-                  <br />
-                  00100 Roma, Italia
-                </p>
-              </div>
               <div className="flex items-center gap-3">
                 <Phone className="h-5 w-5 flex-shrink-0 text-background/80" />
-                <p className="text-sm text-background/80">+39 06 1234 5678</p>
+                <p className="text-sm text-background/80">+39 0744 1234 5678</p>
               </div>
               <div className="flex items-center gap-3">
                 <Mail className="h-5 w-5 flex-shrink-0 text-background/80" />
+                <p className="text-sm text-background/80">info@ncrterni.it</p>
+              </div>
+              <div className="flex items-start gap-3">
+                <MapPin className="h-5 w-5 mt-0.5 flex-shrink-0 text-background/80" />
                 <p className="text-sm text-background/80">
-                  info@ncr-ricambi.it
+                  Via Terni 123
+                  <br />
+                  05100 Terni, Italia
                 </p>
               </div>
             </div>
@@ -130,7 +128,7 @@ export default function Footer() {
             ============================================ */}
         <div className="border-t border-background/20 mt-12 pt-8 text-center">
           <p className="text-sm text-background/75">
-            &copy; {currentYear} NCR Nuovo Centro Ricambi. Tutti i diritti
+            &copy; {currentYear} Nuovo Centro Ricambi. Tutti i diritti
             riservati.
           </p>
         </div>
