@@ -4,6 +4,7 @@ import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
+import FadeIn from "@/components/FadeIn";
 import { Wrench, Package, Clock, Shield, Truck, Settings } from "lucide-react";
 
 /* ============================================
@@ -178,12 +179,7 @@ export default function HomePage() {
           ============================================ */}
       <section className="py-24 bg-background">
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
+          <FadeIn>
             <div className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight text-primary">
                 Le Nostre Categorie
@@ -193,36 +189,31 @@ export default function HomePage() {
                 commerciale
               </p>
             </div>
-          </motion.div>
+          </FadeIn>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
             {categories.map((category: Category, index: number) => (
-              <motion.div
-                key={category.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.2 }}
-                className="group relative overflow-hidden h-96 rounded-lg shadow-lg cursor-pointer"
-              >
-                <div className="absolute inset-0">
-                  <Image
-                    src={category.image}
-                    alt={category.title}
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent group-hover:from-black/90 transition-colors duration-500" />
+              <FadeIn key={category.title} delay={index * 0.2}>
+                <div className="group relative overflow-hidden h-96 rounded-lg shadow-lg cursor-pointer">
+                  <div className="absolute inset-0">
+                    <Image
+                      src={category.image}
+                      alt={category.title}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent group-hover:from-black/90 transition-colors duration-500" />
+                  </div>
+                  <div className="relative h-full flex flex-col justify-end p-8 text-background">
+                    <h3 className="text-2xl font-bold mb-3 tracking-tight">
+                      {category.title}
+                    </h3>
+                    <p className="text-background/90 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500">
+                      {category.description}
+                    </p>
+                  </div>
                 </div>
-                <div className="relative h-full flex flex-col justify-end p-8 text-background">
-                  <h3 className="text-2xl font-bold mb-3 tracking-tight">
-                    {category.title}
-                  </h3>
-                  <p className="text-background/90 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500">
-                    {category.description}
-                  </p>
-                </div>
-              </motion.div>
+              </FadeIn>
             ))}
           </div>
         </div>
@@ -233,12 +224,7 @@ export default function HomePage() {
           ============================================ */}
       <section className="py-24 bg-surface">
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
+          <FadeIn>
             <div className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight text-primary">
                 I Nostri Servizi
@@ -247,32 +233,27 @@ export default function HomePage() {
                 Qualità, affidabilità e professionalità al vostro servizio
               </p>
             </div>
-          </motion.div>
+          </FadeIn>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {services.map((service: Service, index: number) => {
               const Icon = service.icon;
               return (
-                <motion.div
-                  key={service.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="p-8 rounded-lg hover:shadow-xl transition-shadow duration-300 border border-border bg-background"
-                >
-                  <div className="mb-6">
-                    <div className="h-14 w-14 rounded-lg bg-primary/10 flex items-center justify-center">
-                      <Icon className="h-7 w-7 text-primary" />
+                <FadeIn key={service.title} delay={index * 0.1}>
+                  <div className="p-8 rounded-lg hover:shadow-xl transition-shadow duration-300 border border-border bg-background">
+                    <div className="mb-6">
+                      <div className="h-14 w-14 rounded-lg bg-primary/10 flex items-center justify-center">
+                        <Icon className="h-7 w-7 text-primary" />
+                      </div>
                     </div>
+                    <h3 className="text-xl font-semibold mb-3 tracking-tight text-primary">
+                      {service.title}
+                    </h3>
+                    <p className="text-text-muted leading-relaxed">
+                      {service.description}
+                    </p>
                   </div>
-                  <h3 className="text-xl font-semibold mb-3 tracking-tight text-primary">
-                    {service.title}
-                  </h3>
-                  <p className="text-text-muted leading-relaxed">
-                    {service.description}
-                  </p>
-                </motion.div>
+                </FadeIn>
               );
             })}
           </div>
@@ -298,12 +279,7 @@ export default function HomePage() {
           style={{ y }}
           className="w-full max-w-7xl relative z-10 mx-auto px-4 sm:px-6 lg:px-8 text-center"
         >
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
+          <FadeIn>
             <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight">
               Hai bisogno di un ricambio?
             </h2>
@@ -317,7 +293,7 @@ export default function HomePage() {
             >
               Richiedi Informazioni
             </Link>
-          </motion.div>
+          </FadeIn>
         </motion.div>
       </section>
     </>
