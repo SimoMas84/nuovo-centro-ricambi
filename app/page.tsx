@@ -1,65 +1,325 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { useRef } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { Wrench, Package, Clock, Shield, Truck, Settings } from "lucide-react";
+
+/* ============================================
+   Type Definitions
+   ============================================ */
+interface Category {
+  title: string;
+  description: string;
+  image: string;
+}
+
+interface Service {
+  icon: React.ComponentType<{ className?: string }>;
+  title: string;
+  description: string;
+}
+
+/* ============================================
+   Data
+   ============================================ */
+const categories: Category[] = [
+  {
+    title: "Motore e Trasmissione",
+    description:
+      "Componenti motore, filtri, cinghie di distribuzione e ricambi per trasmissione",
+    image: "/images/engine-parts.jpg",
+  },
+  {
+    title: "Freni e Sospensioni",
+    description:
+      "Dischi freno, pastiglie, pinze, ammortizzatori e componenti per sospensioni",
+    image: "/images/brake-system.jpg",
+  },
+  {
+    title: "Sistema Elettrico",
+    description:
+      "Batterie, alternatori, motorini di avviamento e componentistica elettrica",
+    image: "/images/transmission.jpg",
+  },
+];
+
+const services: Service[] = [
+  {
+    icon: Package,
+    title: "Vasto Assortimento",
+    description:
+      "Migliaia di ricambi originali e compatibili per tutte le marche di veicoli commerciali",
+  },
+  {
+    icon: Clock,
+    title: "Consegna Rapida",
+    description:
+      "Spedizioni veloci in tutta Italia con possibilità di ritiro in sede",
+  },
+  {
+    icon: Shield,
+    title: "Garanzia Qualità",
+    description:
+      "Tutti i nostri ricambi sono certificati e garantiti secondo gli standard europei",
+  },
+  {
+    icon: Wrench,
+    title: "Assistenza Tecnica",
+    description:
+      "Supporto specializzato per aiutarti a trovare il ricambio giusto",
+  },
+  {
+    icon: Truck,
+    title: "Veicoli Commerciali",
+    description:
+      "Specializzati in furgoni e camion di tutte le marche e modelli",
+  },
+  {
+    icon: Settings,
+    title: "Ricambi Certificati",
+    description:
+      "Collaboriamo con i migliori produttori di ricambi aftermarket",
+  },
+];
+
+/* ============================================
+   Homepage Component
+   ============================================ */
+export default function HomePage() {
+  const ctaRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ctaRef,
+    offset: ["start end", "end start"],
+  });
+
+  const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <>
+      {/* ============================================
+          Hero Section
+          ============================================ */}
+      <section className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/images/hero-truck.jpg"
+            alt="Commercial vehicles"
+            fill
+            className="object-cover"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-background" />
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+
+        <div className="w-full max-w-7xl relative z-10 mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <motion.h1
+            initial={{ y: 100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            className="text-5xl md:text-7xl lg:text-8xl text-background mb-6 tracking-tight"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            Nuovo Centro Ricambi
+          </motion.h1>
+          <motion.p
+            initial={{ y: 50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
+            className="text-xl md:text-2xl text-background/90 mb-8 max-w-3xl mx-auto"
           >
-            Documentation
-          </a>
+            Il vostro partner di fiducia per ricambi di qualità per veicoli
+            commerciali ed industriali
+          </motion.p>
+          <motion.div
+            initial={{ y: 30, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
+            className="flex flex-col sm:flex-row gap-4 justify-center"
+          >
+            <Link
+              href="/prodotti"
+              className="px-8 py-4 bg-background/50 border-2 border-background/30 text-text font-semibold rounded-lg transition-all duration-300 text-lg hover:scale-105"
+            >
+              Scopri i Prodotti
+            </Link>
+            <Link
+              href="/contatti"
+              className="px-8 py-4 bg-background/50 border-2 border-background/30 text-text font-semibold rounded-lg transition-all duration-300 text-lg hover:scale-105"
+            >
+              Contattaci
+            </Link>
+          </motion.div>
         </div>
-      </main>
-    </div>
+
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 2, repeat: Infinity }}
+            className="text-black"
+          >
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ============================================
+          Categories Section
+          ============================================ */}
+      <section className="py-24 bg-background">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight text-primary">
+                Le Nostre Categorie
+              </h2>
+              <p className="text-xl text-text-muted max-w-2xl mx-auto">
+                Ricambi di qualità per ogni esigenza del vostro veicolo
+                commerciale
+              </p>
+            </div>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+            {categories.map((category: Category, index: number) => (
+              <motion.div
+                key={category.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.2 }}
+                className="group relative overflow-hidden h-96 rounded-lg shadow-lg cursor-pointer"
+              >
+                <div className="absolute inset-0">
+                  <Image
+                    src={category.image}
+                    alt={category.title}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent group-hover:from-black/90 transition-colors duration-500" />
+                </div>
+                <div className="relative h-full flex flex-col justify-end p-8 text-background">
+                  <h3 className="text-2xl font-bold mb-3 tracking-tight">
+                    {category.title}
+                  </h3>
+                  <p className="text-background/90 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500">
+                    {category.description}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================
+          Services Section
+          ============================================ */}
+      <section className="py-24 bg-surface">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight text-primary">
+                I Nostri Servizi
+              </h2>
+              <p className="text-xl text-text-muted max-w-2xl mx-auto">
+                Qualità, affidabilità e professionalità al vostro servizio
+              </p>
+            </div>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {services.map((service: Service, index: number) => {
+              const Icon = service.icon;
+              return (
+                <motion.div
+                  key={service.title}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  className="p-8 rounded-lg hover:shadow-xl transition-shadow duration-300 border border-border bg-background"
+                >
+                  <div className="mb-6">
+                    <div className="h-14 w-14 rounded-lg bg-primary/10 flex items-center justify-center">
+                      <Icon className="h-7 w-7 text-primary" />
+                    </div>
+                  </div>
+                  <h3 className="text-xl font-semibold mb-3 tracking-tight text-primary">
+                    {service.title}
+                  </h3>
+                  <p className="text-text-muted leading-relaxed">
+                    {service.description}
+                  </p>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================
+          CTA Section
+          ============================================ */}
+      <section
+        ref={ctaRef}
+        className="py-24 bg-primary text-background relative overflow-hidden"
+      >
+        <div className="absolute inset-0 opacity-10">
+          <Image
+            src="/images/warehouse.jpg"
+            alt="Warehouse"
+            fill
+            className="object-cover"
+          />
+        </div>
+        <motion.div
+          style={{ y }}
+          className="w-full max-w-7xl relative z-10 mx-auto px-4 sm:px-6 lg:px-8 text-center"
+        >
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight">
+              Hai bisogno di un ricambio?
+            </h2>
+            <p className="text-xl mb-8 text-background/90 max-w-2xl mx-auto">
+              Contattaci oggi stesso per ricevere assistenza personalizzata e
+              trovare il ricambio perfetto per il tuo veicolo commerciale
+            </p>
+            <Link
+              href="/contatti"
+              className="inline-block px-8 py-4 bg-background text-primary font-semibold rounded-lg hover:bg-surface transition-all duration-300 text-lg hover:scale-105"
+            >
+              Richiedi Informazioni
+            </Link>
+          </motion.div>
+        </motion.div>
+      </section>
+    </>
   );
 }
